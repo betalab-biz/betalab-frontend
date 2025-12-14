@@ -54,8 +54,8 @@ export default function TestAddSettingPage() {
   useEffect(() => {
     const pis = Array.isArray(form.privacyItems) ? form.privacyItems : [];
     const restored = pis
-      .map(api => API_TO_UI[api])
-      .filter((v): v is PI => !!v && (PI_OPTIONS as readonly string[]).includes(v));
+      .map((api: string) => API_TO_UI[api])
+      .filter((v: PI | undefined): v is PI => !!v && (PI_OPTIONS as readonly string[]).includes(v));
     setPiSelected(restored);
     setTitle(typeof form.title === 'string' ? form.title : '');
     setSummary(typeof form.serviceSummary === 'string' ? form.serviceSummary : '');
@@ -102,7 +102,6 @@ export default function TestAddSettingPage() {
       save();
       router.replace(`/test-add/${category}/finish${created?.id ? `?id=${created.id}` : ''}`);
     } catch (e: any) {
-      console.error('생성 실패:', e);
       alert(e?.message ?? '등록에 실패했습니다.');
     }
   };
