@@ -47,6 +47,10 @@ export default function TestAddIntroPage() {
     const trimmed = intro.trim();
     if (!trimmed) return alert('소속이나 이름을 입력해주세요!');
 
+    if (!isIndividual && !teamSize.trim()) {
+      return alert('팀원 수를 입력해주세요!');
+    }
+
     const teamMemberCount = isIndividual ? 1 : teamSize ? parseInt(teamSize, 10) : undefined;
 
     update({
@@ -155,8 +159,14 @@ export default function TestAddIntroPage() {
                         if (!isIndividual) {
                           const v = e.target.value.replace(/\D/g, '');
                           const num = parseInt(v, 10);
-                          if (v === '' || (!Number.isNaN(num) && num <= 1000)) {
+                          if (v === '') {
                             setTeamSize(v);
+                          } else if (!Number.isNaN(num)) {
+                            if (num > 30) {
+                              alert('30명 이내로 입력해주세요');
+                            } else {
+                              setTeamSize(v);
+                            }
                           }
                         }
                       }}
